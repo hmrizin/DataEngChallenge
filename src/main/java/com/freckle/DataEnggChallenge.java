@@ -10,9 +10,6 @@ import org.apache.spark.sql.SparkSession;
 
 public class DataEnggChallenge {
 	
-	static String inputPath = "/home/riyaz/dechallenge/sample";
-	static String outputPath = "/home/riyaz/dechallenge/sampleout";
-	
 	private static final Logger logger = Logger.getLogger(DataEnggChallenge.class);
 	
 	public static void main(String[] args) {
@@ -22,8 +19,8 @@ public class DataEnggChallenge {
 			return;
 		}
 		
-		inputPath = args[0];
-		outputPath = args[1];
+		String inputPath = args[0];
+		String outputPath = args[1];
 		
 		/*
 		 * Using local master given the nature of this exercise. In production
