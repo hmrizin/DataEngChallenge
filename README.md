@@ -17,7 +17,7 @@ Please complete as much of the assignment as you have time for. How long you had
 
 **Running the program**
 1. Download the location-data-sample.tar.gz to local disk and extract it. Don't have to extract the individual gz files inside location-data-sample.tar.gz. Spark can gunzip them.
-2. mvn exec:java -Din="path to input directory" -Dout="path to output directory"
+2. mvn clean compile exec:java -Din="path to input directory" -Dout="path to output directory"
 
 **Example**
 
@@ -25,5 +25,5 @@ wget https://s3.amazonaws.com/freckle-dataeng-challenge/location-data-sample.tar
 
 tar -xzvf /home/riyaz/dechallenge/location-data-sample.tar.gz
 
-mvn exec:java -Din=/home/riyaz/dechallenge/location-data-sample -Dout=/home/riyaz/dechallenge/output
+mvn clean compile exec:java -Din=/home/riyaz/dechallenge/location-data-sample -Dout=/home/riyaz/dechallenge/output
 
