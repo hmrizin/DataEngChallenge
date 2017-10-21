@@ -55,6 +55,7 @@ public class DataEnggChallenge {
 					round(avg(ct), rnd).as("Avg"), 
 					round(stddev(ct), rnd).as("StdDev")
 				);
+		idfaStats.show();
 		idfaStats.write().mode(SaveMode.Overwrite).option("header", "true").csv(idfaStatOutPath);
 		
 		/*
@@ -79,7 +80,7 @@ public class DataEnggChallenge {
 		 * This approach needs further exploration
 		 */
 		String clusterOutPath = outputPath + "/clusters";
-		logger.info("Writing people cluseters in parquet format to : " + clusterOutPath);
+		logger.info("Writing people clusters in parquet format to : " + clusterOutPath);
 		String count = "count";
 		Dataset<Row> cluster = df
 				.groupBy(col("geohash"))
@@ -87,13 +88,13 @@ public class DataEnggChallenge {
 				.filter(col(count).gt(1));
 		cluster.write().mode(SaveMode.Overwrite).parquet(clusterOutPath);
 
-		logger.info("Verifying people clusters parquet file. Read top 25 clusters");
+		logger.info("Verifying people clusters parquet file by reading top 25 clusters");
 		spark.read().parquet(clusterOutPath).sort(col("count").desc()).show(25);
 		
 		/*
 		 * Additional analysis
 		 */
-		logger.info("Additional Analysis - IDFA's with the most unique checkins. That is people who move around a lot in a day");
+		logger.info("Additional Analysis - IDFA's with the most unique checkins. That is people who move around a lot");
 		idfaGroup.agg(countDistinct("geohash").as("ct")).orderBy(col("ct").desc()).show();
 		
 		logger.info("Additional Analysis - IP's with the most checkins. A very high number indicates shared ip like wifi-hotspot or vpn");
