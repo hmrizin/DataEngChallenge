@@ -4,6 +4,7 @@ import static org.apache.spark.sql.functions.*;
 
 import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.RelationalGroupedDataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
@@ -45,8 +46,8 @@ public class DataEnggChallenge {
 		logger.info("Writing idfa stats to: " + idfaStatOutPath);
 		String ct = "ct";
 		int rnd = 2;
-		Dataset<Row> idfaStats = df
-				.groupBy("idfa")
+		 RelationalGroupedDataset idfaGroup = df.groupBy("idfa");
+		 Dataset<Row> idfaStats = idfaGroup
 				.agg(count("*").as(ct))
 				.agg(
 					max(ct).as("Max"),
@@ -88,6 +89,15 @@ public class DataEnggChallenge {
 
 		logger.info("Verifying people clusters parquet file. Read top 25 clusters");
 		spark.read().parquet(clusterOutPath).sort(col("count").desc()).show(25);
+		
+		/*
+		 * Additional analysis
+		 */
+		logger.info("Additional Analysis - IDFA's with the most unique checkins. That is people who move around a lot in a day");
+		idfaGroup.agg(countDistinct("geohash").as("ct")).orderBy(col("ct").desc()).show();
+		
+		logger.info("Additional Analysis - IP's with the most checkins. A very high number indicates shared ip like wifi-hotspot or vpn");
+		df.groupBy("user_ip").agg(countDistinct("idfa").as("ct")).orderBy(col("ct").desc()).show();
 		
 		spark.stop();
 	}
