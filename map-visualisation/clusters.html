@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>People Clusters Visualisation - With Population > 10</title>
+    <style>
+      #map {
+        height: 100%;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript" src="clusters-gt10.json"></script>
+    <script type="text/javascript" src="latlon-geohash.js"></script>
+    <script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 2,
+          center: {lat: 0, lng: 0}
+        });
+
+        var markers = clusters.map(function(cluster, i) {
+          var ll = Geohash.decode(cluster.gh)
+          //console.log(ll);
+          return new google.maps.Marker({
+            position: new google.maps.LatLng(ll.lat,ll.lon),
+            label: "" + cluster.count,
+            map: map
+          });
+        });
+      }
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hvOpUn76aGnwDyBO8ooKcMlFFrxYfGg&callback=initMap">
+    </script>
+  </body>
+</html>
