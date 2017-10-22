@@ -16,7 +16,9 @@ The expectation for this exercise is that you use Spark 2.x with Scala, Python, 
 Please complete as much of the assignment as you have time for. How long you had time to spend on the challenge and your experience will be considered. Have some fun with it!
 
 **Running the program**
+
 1. Download the location-data-sample.tar.gz to local disk and extract it. Don't have to extract the individual gz files inside location-data-sample.tar.gz. Spark can gunzip them.
+
 2. mvn clean compile exec:java -Din="path to input directory" -Dout="path to output directory"
 
 **Example**
@@ -27,3 +29,7 @@ tar -xzvf /home/riyaz/dechallenge/location-data-sample.tar.gz
 
 mvn clean compile exec:java -Din=/home/riyaz/dechallenge/location-data-sample -Dout=/home/riyaz/dechallenge/output
 
+**Visualisation**
+
+People clusters with population > 10 can be visualised on Google Maps using the following link
+http://htmlpreview.github.io/?https://github.com/hmrizin/DataEngChallenge/blob/master/map-visualisation/clusters.html
